@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Mekanlar{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ page_title }}</h1>
+    </div>
+
+    <section class="locations-list-section py-4">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+                {% for location in all_locations %}
+                    <div class="col">
+                        <a href="{% url 'travelog:location_detail' location.slug %}" class="location-card d-block h-100"> {# location-card stilini koruyoruz #}
+                            <div class="location-card-left">
+                                {% if location.main_photo %}
+                                    <img src="{{ location.main_photo.url }}" alt="{{ location.name }}" class="location-card-img">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/80x80?text=Foto+Yok" alt="Mekan Fotoğrafı Yok" class="location-card-img">
+                                {% endif %}
+                            </div>
+                            <div class="location-card-right">
+                                <h4>{{ location.name }}</h4>
+                                <hr class="location-card-divider">
+                                {% if location.location_type %}
+                                    <p class="type">{{ location.location_type.name }}</p>
+                                {% else %}
+                                    <p class="type">Belirtilmemiş Tür</p>
+                                {% endif %}
+                                <p class="city">{{ location.city }}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% empty %}
+                    <div class="col-12 text-center py-5">
+                        <p class="lead">Henüz hiç mekan eklenmemiş. Hadi ilk anınızı ekleyin!</p>
+                        <a href="{% url 'travelog:home' %}" class="btn btn-primary mt-3">Anasayfa'ya Dön</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

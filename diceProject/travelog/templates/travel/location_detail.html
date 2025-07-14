@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ location.name }} Detay{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ page_title }}</h1>
+    </div>
+
+    <section class="location-detail-section" style="max-width: 1000px; margin: 0 auto; padding: 20px;"> 
+        <div class="location-content-box" style="background-color: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.07); padding: 30px;">
+
+            <div class="main-info-area" style="display: flex; flex-wrap: wrap; gap: 30px; margin-bottom: 40px; align-items: flex-start;">
+                {% if location.main_photo %}
+                    <div class="main-photo-container" style="flex: 1; min-width: 300px; max-width: 50%; display: flex; justify-content: center; align-items: center; background-color: var(--light-gray); border-radius: 10px; overflow: hidden;">
+                        <img src="{{ location.main_photo.url }}" alt="{{ location.name }}" style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;">
+                    </div>
+                {% endif %}
+
+                <div class="text-info-container" style="flex: 1; min-width: 300px; text-align: left;">
+                    <h2 style="font-size: 2.8em; color: var(--secondary-color); margin-bottom: 10px;">{{ location.name }}</h2>
+                    {% if location.location_type %}
+                        <p style="font-size: 1.2em; color: var(--primary-color); font-weight: 600; margin-bottom: 10px;">{{ location.location_type.name }}</p>
+                    {% endif %}
+                    <p style="font-size: 1.1em; color: var(--dark-gray); margin-bottom: 15px;">{{ location.address }} - {{ location.city }}</p>
+                    <p style="font-size: 1.0em; color: var(--text-color); line-height: 1.7;">{{ location.description|linebreaksbr }}</p>
+                </div>
+            </div>
+
+            {% if location.media_items.all %}
+                <h3 style="margin-top: 40px; margin-bottom: 20px; font-size: 2em; color: var(--secondary-color); text-align: center;">Daha Fazla Anı ve Görsel</h3>
+                <div class="media-gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; justify-content: center;">
+                    {% for media in location.media_items.all %}
+                        <div class="media-item" style="border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            {% if media.media_type == 'image' %}
+                                <a data-fancybox="gallery" href="{{ media.file.url }}" data-caption="{{ media.caption|default:location.name }}">
+                                    <img src="{{ media.file.url }}" alt="{{ media.caption|default:media.file.name }}" style="width: 100%; height: 180px; object-fit: cover; display: block;">
+                                </a>
+                            {% elif media.media_type == 'video' %}
+                                <a data-fancybox="gallery" href="{{ media.file.url }}" data-caption="{{ media.caption|default:location.name }}" data-type="video">
+                                     <video controls style="width: 100%; height: 180px; object-fit: cover; display: block; background-color: black;">
+                                        <source src="{{ media.file.url }}" type="video/mp4">
+                                        Tarayıcınız video etiketini desteklemiyor.
+                                    </video>
+                                </a>
+                            {% endif %}
+                            {% if media.caption %}
+                                <p style="font-size: 0.9em; color: var(--dark-gray); margin: 10px; text-align: left;">{{ media.caption }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+
+        </div> 
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="{% url 'travelog:locations_list' %}" style="background-color: var(--primary-color); color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: background-color 0.3s ease;">Tüm Mekanlara Geri Dön</a>
+        </div>
+    </section>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('[data-fancybox="gallery"]').fancybox({
+                buttons: [
+                    "zoom",
+                    "slideShow",
+                    "fullScreen",
+                    "thumbs",
+                    "close"
+                ],
+                iframe: {
+                    preload: false
+                }
+            });
+        });
+    </script>
+{% endblock %}

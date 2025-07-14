@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Gezi Rotaları{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ page_title }}</h1>
+    </div>
+
+    <section class="routes-list-section py-4"> 
+        <div class="container"> 
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center"> 
+                {% for route in all_routes %}
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0"> 
+                            <a href="{% url 'travelog:route_detail' route.slug %}" class="card-link d-block">
+                                {% if route.main_image %}
+                                    <img src="{{ route.main_image.url }}" class="card-img-top" alt="{{ route.name }}" style="height: 200px; object-fit: cover;">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/400x200?text=Rota+G%C3%B6rseli+Yok" class="card-img-top" alt="Rota Görseli Yok" style="height: 200px; object-fit: cover;">
+                                {% endif %}
+                                <div class="card-body text-center">
+                                    <h5 class="card-title text-secondary">{{ route.name }}</h5>
+                                    {% if route.num_locations > 0 %}
+                                        <p class="card-text text-muted">{{ route.num_locations }} mekan içerir</p>
+                                    {% else %}
+                                        <p class="card-text text-muted">Henüz mekan içermiyor</p>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12 text-center py-5">
+                        <p class="lead">Henüz hiç gezi rotası eklenmemiş.</p>
+                        <a href="{% url 'travelog:home' %}" class="btn btn-primary mt-3">Anasayfa'ya Dön</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ route.name }} Rotası{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ page_title }}</h1>
+    </div>
+
+    <section class="route-detail-section py-4">
+        <div class="container">
+            <div class="row mb-5 justify-content-center">
+                <div class="col-md-8 text-center">
+                    {% if route.main_image %}
+                        <img src="{{ route.main_image.url }}" alt="{{ route.name }}" class="img-fluid rounded shadow-sm mb-4" style="height: 300px; object-fit: cover;">
+                    {% else %}
+                        <img src="https://via.placeholder.com/900x300?text=Rota+G%C3%B6rseli+Yok" alt="Rota Görseli Yok" class="img-fluid rounded shadow-sm mb-4" style="height: 300px; object-fit: cover;">
+                    {% endif %}
+                    <p class="lead text-muted">{{ route.description }}</p>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4 text-secondary">Bu Rota İçindeki Mekanlar</h3>
+
+            {% if route_locations %}
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+                    {% for location in route_locations %}
+                        <div class="col">
+                            <div class="card h-100 shadow-sm border-0">
+                                <a href="{% url 'travelog:location_detail' location.slug %}" class="card-link d-flex align-items-center p-3">
+                                    <div class="flex-shrink-0 me-3">
+                                        {% if location.main_photo %}
+                                            <img src="{{ location.main_photo.url }}" alt="{{ location.name }}" class="rounded shadow-sm" style="width: 70px; height: 70px; object-fit: cover;">
+                                        {% else %}
+                                            <img src="https://via.placeholder.com/70x70?text=Foto" alt="Mekan Fotoğrafı Yok" class="rounded shadow-sm" style="width: 70px; height: 70px; object-fit: cover;">
+                                        {% endif %}
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="mb-1 text-secondary">{{ location.name }}</h5>
+                                        <p class="mb-0 text-muted small">{{ location.city }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-center text-muted lead py-5">Bu rotaya henüz mekan eklenmemiş.</p>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

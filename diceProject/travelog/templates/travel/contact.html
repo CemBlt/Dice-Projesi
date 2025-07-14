@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}İletişim{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ page_title }}</h1>
+    </div>
+    <section class="contact-section py-4">
+        <div class="container">
+            <div class="card shadow-sm border-0 rounded p-4 mx-auto" style="max-width: 600px;">
+                <div class="card-body text-center">
+                    <p class="lead mb-4">
+                        Aklınıza takılan her türlü soru, öneri veya sadece "Merhaba" demek için bize ulaşmaktan çekinmeyin!
+                    </p>
+                    <div class="mb-4">
+                        <h3 class="text-primary mb-2">E-posta</h3>
+                        <p class="fs-5 fw-bold mb-0">
+                            <a href="mailto:senin_eposta_adresin@example.com" class="text-secondary">
+                                senin_eposta_adresin@example.com
+                            </a>
+                        </p>
+                    </div>
+                    <div class="mb-4">
+                        <h3 class="text-primary mb-2">Sosyal Medya</h3>
+                        <p class="fs-5">
+                            <a href="https://instagram.com/senin_instagram_hesabin" target="_blank" class="text-secondary mx-2">
+                                <i class="fab fa-instagram"></i> Instagram
+                            </a>
+                            <a href="https://twitter.com/senin_twitter_hesabin" target="_blank" class="text-secondary mx-2">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </a>
+                            {# Diğer sosyal medya ikonları ve linkleri buraya eklenebilir #}
+                        </p>
+                    </div>
+                    <p class="text-muted small mb-0">
+                        En kısa sürede size geri dönüş yapacağız.
+                    </p>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <a href="{% url 'travelog:home' %}" class="btn btn-primary btn-lg">Anasayfa'ya Dön</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
